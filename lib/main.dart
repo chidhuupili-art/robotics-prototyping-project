@@ -1,4 +1,4 @@
-import 'dart:async'; // REQUIRED FOR AUTOSAVE TIMER
+import 'dart:async';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:ionicons/ionicons.dart';
 import 'endgame.dart';
@@ -10,10 +10,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
-import 'package:file_picker/file_picker.dart'; // REQUIRED FOR IMPORT
+import 'package:file_picker/file_picker.dart';
 import 'signin.dart';
 import 'providers.dart';
-// import 'package:showcaseview/showcaseview.dart'; // TUTORIAL COMMENTED OUT
+// import 'package:showcaseview/showcaseview.dart';
 
 void main() {
   runApp(
@@ -51,10 +51,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   int selectedIndex = 1;
   late List<Widget> _widgetOptions;
 
-  // --- AUTOSAVE DECLARATIONS ---
   Timer? _autosaveTimer;
   final Duration _autosaveDelay = const Duration(seconds: 5);
-  // --- END AUTOSAVE DECLARATIONS ---
 
   @override
   void initState() {
@@ -72,13 +70,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     super.dispose();
   }
 
-  // --- AUTOSAVE LOGIC ---
-
-  /// Uses a debounced timer to automatically save the current match data.
   void _triggerAutosave() {
-    // Only trigger autosave if we are not on the Home/Main menu page
     if (selectedIndex != 1) {
-      _autosaveTimer?.cancel(); // Cancel any existing timer
+      _autosaveTimer?.cancel();
 
       // Schedule a new timer to call _autosaveMatchData after the delay
       _autosaveTimer = Timer(_autosaveDelay, () {
@@ -170,7 +164,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     };
 
     try {
-      // FIX: Pass the correct named parameter value: isAutosave: true
       await _saveMatchFile(matchData, isAutosave: true);
 
       if (mounted) {
@@ -187,10 +180,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     }
   }
 
-  // --- REUSABLE FILE SAVING LOGIC ---
-
-  /// Saves the JSON and HTML files for a single match data map.
-  /// The 'isAutosave' flag suppresses success messages and folder opening.
   Future<void> _saveMatchFile(Map<String, dynamic> matchData, {bool isAutosave = false}) async {
     final teamNum = matchData['matchInfo']['teamNumber'] as String;
     final matchNum = matchData['matchInfo']['matchNumber'] as String;
@@ -217,8 +206,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
     final jsonFile = File('$newMatchDirectoryPath/$filename.json');
     await jsonFile.writeAsString(jsonContent);
-
-    // HTML Content generation
     final String htmlContent = """
     <!DOCTYPE html>
     <html lang="en">
@@ -305,7 +292,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
     if (!mounted) return;
 
-    // Only show success snackbar and open folder if NOT autosaving
     if (!isAutosave) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('HTML and JSON saved to ${newMatchDirectory.path}')));
@@ -313,8 +299,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       await _openFolder(newMatchDirectory.path);
     }
   }
-
-  // --- SAVE CURRENT MATCH DATA (Refactored to use _saveMatchFile) ---
 
   Future<void> _saveMatchData() async {
     final teamNum = ref.read(teamNumberProvider);
@@ -398,10 +382,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     };
 
     try {
-      // FIX: Add the named parameter 'isAutosave: false' to the call
       await _saveMatchFile(matchData, isAutosave: false);
 
-      // 2. Reset the state after a successful save
       ref.read(assemblyTrayNotifierProvider.notifier).set(0);
       ref.read(ovenColumnNotifierProvider.notifier).set(0);
       ref.read(deliveryHatchNotifierProvider.notifier).set(0);
@@ -425,9 +407,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
           .showSnackBar(SnackBar(content: Text('Error saving file: $e')));
     }
   }
-
-  // --- EXPORT DATA FUNCTION ---
-
   Future<void> _exportData() async {
     try {
       final baseDirectory = await getApplicationDocumentsDirectory();
@@ -487,9 +466,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
           .showSnackBar(SnackBar(content: Text('Error exporting data: $e')));
     }
   }
-
-  // --- HELPER FUNCTIONS ---
-
   Future<void> _openFolder(String path) async {
     final uri = Uri.directory(path);
     if (await canLaunchUrl(uri)) {
@@ -564,9 +540,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       print('Error saving imported match (T$teamNum M$matchNum): $e');
     }
   }
-
-  // --- IMPORT DATA FUNCTION ---
-
   Future<void> _importData() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -667,9 +640,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // --- AUTOSAVE WATCHERS ---
-    // Watching all key providers to trigger autosave when anything changes
-    // Only triggers if the index is NOT the Home/Main menu page
     if (selectedIndex != 1) {
       ref.watch(teamNumberProvider);
       ref.watch(matchNumberProvider);
@@ -686,11 +656,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       ref.watch(humanPlayerPenaltyProvider);
       ref.watch(robotOutsidePenaltyProvider);
 
-      // Call the trigger immediately when any of the above change
       _triggerAutosave();
     }
-    // --- END AUTOSAVE WATCHERS ---
-
     final scoutName = ref.watch(scoutNameProvider);
     final List<String> pageTitles = <String>[
       'Regular Scoring',
@@ -1066,7 +1033,7 @@ class HomePageContent extends ConsumerWidget {
 }
 
 class RegularScoringPage extends ConsumerWidget {
-  // FINAL FIX: Removed all key parameters from constructors
+
   const RegularScoringPage({
     super.key,
   });
@@ -1166,7 +1133,6 @@ class RegularScoringPage extends ConsumerWidget {
         children: <Widget>[
           FractionallySizedBox(
             widthFactor: 0.6,
-            // TUTORIAL COMMENTED OUT: Removed Showcase wrapper
             child: TextField(
               controller: teamController,
               decoration: const InputDecoration(
@@ -1196,7 +1162,6 @@ class RegularScoringPage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 30),
-          // TUTORIAL COMMENTED OUT: Removed Showcase wrapper
           _buildDoubleButton(
             ref: ref,
             label: ' Assembly Tray',

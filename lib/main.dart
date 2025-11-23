@@ -656,7 +656,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       ref.watch(humanPlayerPenaltyProvider);
       ref.watch(robotOutsidePenaltyProvider);
 
-      _triggerAutosave();
+      //_triggerAutosave();
     }
     final scoutName = ref.watch(scoutNameProvider);
     final List<String> pageTitles = <String>[
@@ -1194,3 +1194,4 @@ class RegularScoringPage extends ConsumerWidget {
     );
   }
 }
+

@@ -1,61 +1,108 @@
-# roboticsapp11_17_2025
-## An app that helps people scout Pizza Panic games
-By Ankitha Aravinthan
-An app to manage scouting data with:
-  - an export function (If a MatchReports folder already exists in the specified directory)
-  - an import function (If a correctly formatted json file is selected through the file picker)
-  - a save match (Saves a folder with multiple folders nested within, the last folder containing 
-    an HTML and JSON file with the data collected through the app)
- When you open the app, you'll be prompted to type your name, which will be displayed in the appBar
- and saved in exported files.
-Once logged in, you'll be taken to the Home Page, where if needed, you can manually enter match data.
-If that isn't necessary, you could click on the menu items on either side of the Home Page icon, which
-take you to pages more specific to the part of the game.
-  In the Match Page, there are two TextFieldControllers:
-     = Team Number
-       - no letters are allowed
-       - it will be included in the JSON file exported as "teamNumber" when you click 
-         save, or export match.
-       - it will be part of the overview in the HTML file exported when you click 
-         save, or export match.
-       - it will be deleted after the data has been exported
-     = Match Number
-       - no letters are allowed
-       - it will be included in the JSON file exported as "matchNumber" when you click 
-         save, or export match.
-       - it will be part of the overview in the HTML file exported when you click 
-         save, or export match.
-       - it will be deleted after the data has been exported
-  The data from these controllers will be saved in an array called "matchInfo"
-There is also a button at the bottom that resets the values of each score type to zero, the default value.
-Again, the scores will automatically be reset after export, so unless there was some severe mishap, that
-button shouldn't be used.
-Instead, use the decrement buttons.
+# Robotics Scouting Data Manager
 
-=== Match Page Description End ===
+This application is designed to manage robotics competition scouting data, featuring export, import, and real-time save functionalities.
 
-In the Endgame Page, there are three Scoring Rows:
-    =  The Ten Feet Counter
-        - increments 25 points into the totalEndgameScore, which is added into the totalScore
-    = The Fifteen Feet Counter
-        - increments 40 points into the totalEndgameScore, which is added into the totalScore
-    =  The Twenty Plus Feet Counter
-        - increments 40 points into the totalEndgameScore, which is added into the totalScore 
-    
-=== Endgame Page Description End ===
-  
-Other Functionalities
-  The vertical menu located in the top right, when clicked, expands into a menu consisting of three options:
-      = Save Match
-              clicking this button saves match data to a defined folder, which can later be imported using
-              the import button
-      = Export All Data
-              clicking this button exports previous data to the previously defined folder, and returns an error
-              the specified folder isn't found in the directory
-      = Import All Data
-              clicking this button opens a file picker, which allows the user to select any json file in the right
-              format, and with the necessary information within it; otherwise, an error is displayed.
-      = Log Out
-              clicking this button will clear the scoutName variable, or in other words, set its value to an empty
-              string; data previously entered will remain in the app, and only clear once exported or manually reset.
+When the app opens, the user is prompted to enter their name (`scoutName`), which is saved in exported files and displayed in the application's header (AppBar).
 
+## Core Functionalities
+
+### 1. Home Page
+After logging in, the user is taken to the Home Page, which provides an overview of the current match data and access to other specific scouting pages.
+
+### 2. Match Page
+This page is dedicated to entering basic match identifiers and primary scoring data.
+
+#### Input Fields
+The following two fields must only allow numerical input (no letters):
+
+* **Team Number:**
+    * Included in the exported JSON file as `"teamNumber"`.
+    * Included in the HTML file's match overview.
+    * The value will be cleared after successful data export.
+* **Match Number:**
+    * Included in the exported JSON file as `"matchNumber"`.
+    * Included in the HTML file's match overview.
+    * The value will be cleared after successful data export.
+
+The data from these controllers will be saved as part of the `matchInfo` object in the final export.
+
+#### Scoring
+This page includes counters for regular match scoring elements (Assembly Tray, Oven Column, Delivery Hatch).
+
+#### Reset Functionality
+A button at the bottom of the page resets the values of all score types to zero (the default value). Scores are automatically reset after data export.
+
+### 3. Endgame Page
+This page focuses on tracking high-value endgame scoring elements and penalties.
+
+#### Scoring Rows
+This section tracks points scored by distance:
+
+* **Ten Feet Counter (10ft):** Increments **25 points** into `totalEndgameScore`, which is added to the `totalScore`.
+* **Fifteen Feet Counter (15ft):** Increments **40 points** into `totalEndgameScore`, which is added to the `totalScore`.
+* **Twenty Plus Feet Counter (20+ft):** Increments **40 points** into `totalEndgameScore`, which is added to the `totalScore`.
+
+#### Penalty Tracking
+This section tracks various penalties that result in score deduction.
+
+## Menu Functionalities (Top Right Vertical Menu)
+
+The vertical menu expands to offer the following options:
+
+* **Save Match:**
+    * Saves the current match data to a defined folder/database structure (e.g., Firestore).
+* **Export All Data:**
+    * Exports all previous data to a single JSON file downloaded to the user's specified directory.
+    * Returns an error if the specified folder (or collection, in a web context) isn't found or accessible.
+* **Import All Data:**
+    * Opens a file picker allowing the user to select a correctly formatted JSON file.
+    * Imports the data from the JSON file into the application's database/storage.
+    * Displays an error if the file format is incorrect or necessary information is missing.
+* **Log Out:**
+    * Clears the `scoutName` variable (sets its value to an empty string), returning the user to the initial login prompt.
+    * Data previously entered will remain in the app until manually reset or exported.
+
+## Data and File Format Specifications
+
+### File Name Format (on Export)
+
+Team-teamNum_Match-matchNum__yyyy-MM-DD_hh-mm-SS.json
+
+
+### Format for Imported JSON Files
+
+The expected structure for both imported and exported JSON data:
+
+```json
+{
+  "matchInfo": {
+    "teamNumber": "teamNum",
+    "matchNumber": "matchNum",
+    "saveDate": "yyyy-MM-DD_hh-mm-SS",
+    "scoutName": "scoutName"
+  },
+  "scoring": {
+    "regular": {
+      "assemblyTray": 0,
+      "ovenColumn": 0,
+      "deliveryHatch": 0,
+      "total": 0
+    },
+    "endgame": {
+      "pizza5ft": 0,
+      "pizza10ft": 0,
+      "pizza15ft": 0,
+      "pizza20ft": 0,
+      "total": 0
+    },
+    "penalties": {
+      "motorBurn": 0,
+      "elevatorMalfunction": 0,
+      "mechanismDetached": 0,
+      "humanPlayer": 0,
+      "robotOutside": 0,
+      "totalPointsDeducted": 0
+    },
+    "finalTotal": 0
+  }
+}

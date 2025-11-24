@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Report: Team ${matchData['matchInfo']['teamNumber']}, Match ${matchData['matchInfo']['matchNumber']}</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; margin: 20px; max-width: 800px; margin-left: auto; margin-right: auto; padding: 15px; border: 1px solid #ddd; border-radius: 8px;">
+
+<h1>Match Report: Team ${matchData['matchInfo']['teamNumber']} / Match ${matchData['matchInfo']['matchNumber']}</h1>
+<p>
+    <strong style="color: #000;">Date:</strong> ${matchData['matchInfo']['saveDate']}<br>
+    <strong style="color: #000;">Scout:</strong> ${matchData['matchInfo']['scoutName']}
+</p>
+
+<h2 style="color: #555; border-bottom: 1px solid #ccc; padding-bottom: 3px;">
+    Regular Scoring (Total: ${matchData['scoring']['regular']['total']})
+</h2>
+<ul style="list-style-type: none; padding-left: 0;">
+    <li style="background: #f9f9f9; margin-bottom: 8px; padding: 10px; border-radius: 5px;">
+        <strong style="color: #000;">Assembly Tray:</strong> ${matchData['scoring']['regular']['assemblyTray']}
+    </li>
+    <li style="background: #f9f9f9; margin-bottom: 8px; padding: 10px; border-radius: 5px;">
+        <strong style="color: #000;">Oven Column:</strong> ${matchData['scoring']['regular']['ovenColumn']}
+    </li>
+    <li style="background: #f9f9f9; margin-bottom: 8px; padding: 10px; border-radius: 5px;">
+        <strong style="color: #000;">Delivery Hatch:</strong> ${matchData['scoring']['regular']['deliveryHatch']}
+    </li>
+</ul>
+
+<h2 style="color: #555; border-bottom: 1px solid #ccc; padding-bottom: 3px;">
+    Endgame Scoring (Total: ${matchData['scoring']['endgame']['total']})
+</h2>
+<ul style="list-style-type: none; padding-left: 0;">
+    <li style="background: #f9f9f9; margin-bottom: 8px; padding: 10px; border-radius: 5px;">
+        <strong style="color: #000;">5 ft Pizzas (10 pts):</strong> ${matchData['scoring']['endgame']['pizza5ft']}
+    </li>
+    <li style="background: #f9f9f9; margin-bottom: 8px; padding: 10px; border-radius: 5px;">
+        <strong style="color: #000;">10 ft Pizzas (25 pts):</strong> ${matchData['scoring']['endgame']['pizza10ft']}
+    </li>
+    <li style="background: #f9f9f9; margin-bottom: 8px; padding: 10px; border-radius: 5px;">
+        <strong style="color: #000;">15 ft Pizzas (40 pts):</strong> ${matchData['scoring']['endgame']['pizza15ft']}
+    </li>
+    <li style="background: #f9f9f9; margin-bottom: 8px; padding: 10px; border-radius: 5px;">
+        <strong style="color: #000;">20+ ft Pizzas (50 pts):</strong> ${matchData['scoring']['endgame']['pizza20ft']}
+    </li>
+</ul>
+
+<h2 style="color: #c0392b; border-bottom: 1px solid #ccc; padding-bottom: 3px;">
+    Penalties (Total: -${matchData['scoring']['penalties']['totalPointsDeducted']})
+</h2>
+<ul style="list-style-type: none; padding-left: 0;">
+    <li style="background: #f9f9f9; margin-bottom: 8px; padding: 10px; border-radius: 5px;">
+        <strong style="color: #000;">Motor Burn (-20 pts):</strong> ${matchData['scoring']['penalties']['motorBurn']}
+    </li>
+    <li style="background: #f9f9f9; margin-bottom: 8px; padding: 10px; border-radius: 5px;">
+        <strong style="color: #000;">Elevator Malfunction (-5 pts):</strong> ${matchData['scoring']['penalties']['elevatorMalfunction']}
+    </li>
+    <li style="background: #f9f9f9; margin-bottom: 8px; padding: 10px; border-radius: 5px;">
+        <strong style="color: #000;">Mechanism Detached (-5 pts):</strong> ${matchData['scoring']['penalties']['mechanismDetached']}
+    </li>
+    <li style="background: #f9f9f9; margin-bottom: 8px; padding: 10px; border-radius: 5px;">
+        <strong style="color: #000;">Human Player Reaches In (-30 pts):</strong> ${matchData['scoring']['penalties']['humanPlayer']}
+    </li>
+    <li style="background: #f9f9f9; margin-bottom: 8px; padding: 10px; border-radius: 5px;">
+        <strong style="color: #000;">Robot Outside Field (-30 pts):</strong> ${matchData['scoring']['penalties']['robotOutside']}
+    </li>
+</ul>
+
+<h2 style="color: #555; border-bottom: 1px solid #ccc; padding-bottom: 3px;">
+    Final Score
+</h2>
+<ul style="list-style-type: none; padding-left: 0;">
+    <li style="background: #f9f9f9; margin-bottom: 8px; padding: 10px; border-radius: 5px;">
+        <strong style="color: #000;">Total Score:</strong> ${matchData['scoring']['finalTotal']}
+    </li>
+</ul>
+</body>
+</html>

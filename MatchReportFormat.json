@@ -1,0 +1,31 @@
+"matchInfo":  {
+  'teamNumber': teamNum,
+  'matchNumber': matchNum,
+  'saveDate': formattedDate,
+  'scoutName': scoutName,
+},
+'scoring': {
+'regular': {
+  'assemblyTray': assemblyScore,
+  'ovenColumn': ovenScore,
+  'deliveryHatch': deliveryScore,
+  'total': totalRegularScore
+},
+'endgame': {
+  'pizza5ft': pizza5ftCount,
+  'pizza10ft': pizza10ftCount,
+  'pizza15ft': pizza15ftCount,
+  'pizza20ft': pizza20ftCount,
+  'total': totalEndgameScore,
+},
+'penalties': {
+  'motorBurn': motorBurnCount,
+  'elevatorMalfunction': elevatorCount,
+  'mechanismDetached': detachedCount,
+  'humanPlayer': humanCount,
+  'robotOutside': robotCount,
+  'totalPointsDeducted': totalPenaltyScore,
+},
+'finalTotal': totalScore,
+}
+};
